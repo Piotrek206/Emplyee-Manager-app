@@ -1,2 +1,7 @@
+/home/piotr/IdeaProjects/MicroservicesCourse/employeeManager/src/main/java/com/manager/repository/EmployeeRepository.java
 /home/piotr/IdeaProjects/MicroservicesCourse/employeeManager/src/main/java/com/manager/controller/EmployeeManagerController.java
+/home/piotr/IdeaProjects/MicroservicesCourse/employeeManager/src/main/java/com/manager/service/EmployeeService.java
+/home/piotr/IdeaProjects/MicroservicesCourse/employeeManager/src/main/java/com/manager/dto/EmployeeDto.java
 /home/piotr/IdeaProjects/MicroservicesCourse/employeeManager/src/main/java/com/manager/Main.java
+/home/piotr/IdeaProjects/MicroservicesCourse/employeeManager/src/main/java/com/manager/mapper/EmployeeMapper.java
+/home/piotr/IdeaProjects/MicroservicesCourse/employeeManager/src/main/java/com/manager/entity/Employee.java
