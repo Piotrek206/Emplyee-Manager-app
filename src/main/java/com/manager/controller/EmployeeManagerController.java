@@ -1,6 +1,7 @@
 package com.manager.controller;
 
 import com.manager.dto.EmployeeDto;
+import com.manager.exception.ResourceNotFoundException;
 import com.manager.service.EmployeeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Log4j2
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +26,22 @@ public class EmployeeManagerController {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello, World!";
+        return "Employee Manager App Welcome!";
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long id) {
+        EmployeeDto employee = employeeServiceImpl.getEmployeeById(id);
+        if (employee == null) {
+            throw new ResourceNotFoundException("Employee not found with id: " + id);
+        }
+        return ResponseEntity.ok(employee);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+        List<EmployeeDto> employees = employeeServiceImpl.getEmployees();
+        return ResponseEntity.ok(employees);
     }
 
     @PostMapping
@@ -36,7 +54,7 @@ public class EmployeeManagerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<String> updateEmployee(@PathVariable("id") Long id, @RequestBody EmployeeDto employeeDto) {
         log.info("Updating employee with id: {}", id);
         employeeDto.setId(id);
         EmployeeDto updated = employeeServiceImpl.updateEmployee(employeeDto);
@@ -48,12 +66,12 @@ public class EmployeeManagerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteEmployee(@PathVariable("id") Long id) {
         log.info("Deleting employee with id: {}", id);
         try {
             employeeServiceImpl.deleteEmployee(id);
             return ResponseEntity.ok().build();
-        } catch (com.manager.service.ResourceNotFoundException ex) {
+        } catch (ResourceNotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
             log.error("Failed to delete employee with id: {}", id, ex);
